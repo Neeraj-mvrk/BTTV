@@ -10,21 +10,7 @@ import { authMiddleware } from './middleware/authMiddleware';
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:3000',
-                       'https:www.trekkingtale.com',
-                       'https://trekking-tale.vercel.app',
-                       'https://trekking-tale-git-master-neerajmvrks-projects.vercel.app',
-                       'https://trekking-tale-9c6l5404f-neerajmvrks-projects.vercel.app',
-                       'https://trekking-tale-kjgyxgzwk-neerajmvrks-projects.vercel.app']
-
-// CORS Configuration
-const corsOptions = {
-  origin:allowedOrigins,
-  // credentials: true, // Allow cookies to be sent with requests
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 app.use('/api/users', userRoutes);  // User routes
