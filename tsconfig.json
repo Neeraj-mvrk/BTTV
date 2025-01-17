@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "outDir": "./dist",
+      "rootDir": "BestTimeVisit/src",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true
+    },
+    "include": ["BestTimeVisit/src/**/*.ts"],
+    "exclude": ["node_modules"]
+  }
