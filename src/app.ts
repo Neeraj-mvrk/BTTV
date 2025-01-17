@@ -18,7 +18,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 app.use('/api/users', userRoutes);  // User routes
