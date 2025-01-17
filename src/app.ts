@@ -10,14 +10,26 @@ import { authMiddleware } from './middleware/authMiddleware';
 
 const app = express();
 
+const allowedOrigins = ['http://localhost:3000',
+                       'https:www.trekkingtale.com',
+                       'https://trekking-tale.vercel.app',
+                       'https://trekking-tale-git-master-neerajmvrks-projects.vercel.app',
+                       'https://trekking-tale-9c6l5404f-neerajmvrks-projects.vercel.app',
+                       'https://trekking-tale-kjgyxgzwk-neerajmvrks-projects.vercel.app']
+
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https:www.trekkingtale.com','https://trekking-tale.vercel.app/','https://trekking-tale-git-master-neerajmvrks-projects.vercel.app/','https://trekking-tale-9c6l5404f-neerajmvrks-projects.vercel.app/'], // Your frontend URL
-  credentials: true, // Allow cookies to be sent with requests
+  origin: (origin: string | undefined, callback: Function) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error(`CORS blocked for origin: ${origin}`)); // Block the request
+    }
+  },
+  credentials: true, // Allow cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  optionsSuccessStatus: 200,
 };
-
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
