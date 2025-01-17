@@ -19,17 +19,11 @@ const allowedOrigins = ['http://localhost:3000',
 
 // CORS Configuration
 const corsOptions = {
-  origin: (origin: string | undefined, callback: Function) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true); // Allow the request
-    } else {
-      callback(new Error(`CORS blocked for origin: ${origin}`)); // Block the request
-    }
-  },
-  credentials: true, // Allow cookies
+  origin:allowedOrigins,
+  credentials: true, // Allow cookies to be sent with requests
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  optionsSuccessStatus: 200,
 };
-app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
