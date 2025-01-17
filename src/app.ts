@@ -27,9 +27,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-app.use('/api/users', userRoutes);  // User routes
-app.use('/api/mausam', weatherRoutes);  // Register weather routes
-app.use('/api/location', locationRoutes);  // Register location routes
+app.use('/api/users',authMiddleware, userRoutes);  // User routes
+app.use('/api/mausam',authMiddleware, weatherRoutes);  // Register weather routes
+app.use('/api/location',authMiddleware, locationRoutes);  // Register location routes
 app.use('/api/preferences', authMiddleware, preferencesRoutes); 
 app.use('/api/oauth', oauthRoutes); // Register location routes
 app.get('/', (req: Request, res: Response) => {
