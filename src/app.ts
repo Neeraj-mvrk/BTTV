@@ -20,7 +20,7 @@ const allowedOrigins = ['http://localhost:3000',
 // CORS Configuration
 const corsOptions = {
   origin:allowedOrigins,
-  credentials: true, // Allow cookies to be sent with requests
+  // credentials: true, // Allow cookies to be sent with requests
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   optionsSuccessStatus: 200,
 };
