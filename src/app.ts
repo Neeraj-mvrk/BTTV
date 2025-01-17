@@ -12,13 +12,13 @@ const app = express();
 
 // CORS Configuration
 const corsOptions = {
-  origin: 'http://localhost:3000', // Your frontend URL
+  origin: ['http://localhost:3000', 'https:www.trekkingtale.com','https://trekking-tale.vercel.app/','https://trekking-tale-git-master-neerajmvrks-projects.vercel.app/','https://trekking-tale-9c6l5404f-neerajmvrks-projects.vercel.app/'], // Your frontend URL
   credentials: true, // Allow cookies to be sent with requests
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   optionsSuccessStatus: 200,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 app.use('/api/users', userRoutes);  // User routes
