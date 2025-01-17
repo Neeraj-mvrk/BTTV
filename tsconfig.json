@@ -1,14 +1,14 @@
 {
-    "compilerOptions": {
-      "target": "ES6",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "outDir": "./dist",
-      "rootDir": "BestTimeVisit/src",
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "strict": true
-    },
-    "include": ["BestTimeVisit/src/**/*.ts"],
-    "exclude": ["node_modules"]
-  }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist", // Directory for compiled files
+    "rootDir": "./src", // Directory containing your source files
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  },
+  "include": ["src/**/*.ts"], // Look for .ts files inside the src folder
+  "exclude": ["node_modules"] // Exclude dependencies
+}
