@@ -4,6 +4,7 @@
   "description": "An app to tell best time to visit places",
   "main": "server.ts",
   "scripts": {
+    "postinstall": "prisma generate",
     "start": "node dist/server.js",
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/server.ts"
