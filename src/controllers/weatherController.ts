@@ -26,7 +26,14 @@ export async function getWeather(req: Request, res: Response): Promise<void> {
 export async function getDailyWeather(req: Request, res: Response): Promise<void> {
   try {
     // Call the service to fetch weather data
-    const weatherData = await fetchDailyWeatherData();
+    const {preferenceId} = req.query; 
+    const numPrefId = Number(preferenceId);
+    if(isNaN(numPrefId)){
+        sendBadRequest(res,"Invalid preferenceId")
+        return;  // Exit the function after sending a response
+    }
+    //  console.log(req.query,"QUERY");
+    const weatherData = await fetchDailyWeatherData(numPrefId);
     sendSuccess(res,"Weather data fetched successfully", weatherData);  // Send a success response with weather data
   } catch (error) {
     console.error(error);
