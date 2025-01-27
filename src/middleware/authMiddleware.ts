@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'BTTV_1234';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction):void => {
   // Access token from the cookie
-  const token = req.cookies.auth_token || req.headers['authorization'];
+  const token =  req.headers['authorization'] || req.cookies.auth_token;
   console.log(token)
 
   if (!token) {

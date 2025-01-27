@@ -1,5 +1,6 @@
 import app from './app';
 import dotenv from 'dotenv';
+import "./scheduler/cronJobs"
 
 // Load environment variables from .env file
 dotenv.config();

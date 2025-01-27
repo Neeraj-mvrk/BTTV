@@ -1,6 +1,7 @@
 import axios from 'axios';
 import prisma from '../db/prisma';
 import { getBestDaysForPreference,fetchAllTravelDays } from './forecastService';
+import { sendEmail } from '../utils/sendEmail';
 
 export async function fetchWeatherData(lat: string | string[], lon: string | string[]): Promise<any> {
   try {
@@ -13,6 +14,11 @@ export async function fetchWeatherData(lat: string | string[], lon: string | str
 
 export async function fetchDailyWeatherData(preferenceId:number): Promise<any> {
   try { 
+    const subscribedPrefs = await prisma.preferences.findMany({
+      where: { notify: true },
+      include: { user: true },
+    });
+    return subscribedPrefs;
     const bestDays = await getBestDaysForPreference(preferenceId);
     const travelDays = await fetchAllTravelDays(preferenceId);
     return {travelDays,bestDays};

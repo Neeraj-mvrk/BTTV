@@ -13,7 +13,19 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 } 
-
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique     // Required, cannot be null
+  phoneNumber String?  @unique     // Optional
+  name        String                // Required, cannot be null
+  image       String?              // Optional
+  provider    String?              // Optional
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  // This tells Prisma that a User can have many Preferences
+  preferences Preferences[]
+  
+}
 model Preferences {
   id             Int      @id @default(autoincrement())
   location       String
@@ -24,22 +36,12 @@ model Preferences {
   notify         Boolean
   createdAt      DateTime @default(now())
   userId         Int       // Foreign key to the User model
+  user           User             @relation(fields: [userId], references: [id])   // The actual relation field
   lat            String
   lon            String
   forecastCache    ForecastCache?
 }
 
-model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique     // Required, cannot be null
-  phoneNumber String?  @unique     // Optional
-  name        String                // Required, cannot be null
-  image       String?              // Optional
-  provider    String?              // Optional
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-}
 
 model ForecastCache {
   id            Int         @id @default(autoincrement())
