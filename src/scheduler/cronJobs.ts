@@ -4,7 +4,7 @@ import { sendEmail } from "../utils/sendEmail";
 import { getBestDaysForPreference } from '../services/forecastService';
 
 // Runs at 6 AM daily
-cron.schedule("0 6 * * *", async () => {
+cron.schedule("*/5 * * * *", async () => {
   console.log("Running daily best time to travel check at 6 AM...");
 
   try {
