@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getAllUsers, addUser } from '../services/userService';
+import {scheduleTravelNotificationCron} from '../scheduler/cronJobs';
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -26,3 +27,17 @@ export const createUser = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const startCron = async (req: Request, res: Response) => {
+  try {
+    const data = await scheduleTravelNotificationCron();
+    res.json(data);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "An unexpected error occurred" });
+    }
+  }
+};
+

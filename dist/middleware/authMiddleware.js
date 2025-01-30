@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authMiddleware = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const JWT_SECRET = process.env.JWT_SECRET || 'BTTV_1234';
+const JWT_SECRET = process.env.JWT_SECRET || '';
 const authMiddleware = (req, res, next) => {
     // Access token from the cookie
     const token = req.cookies.auth_token || req.headers['authorization'];

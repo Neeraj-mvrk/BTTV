@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'BTTV_1234';
+const JWT_SECRET = process.env.JWT_SECRET || '';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction):void => {
   // Access token from the cookie

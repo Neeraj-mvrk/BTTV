@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());  // Middleware to parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-app.use('/api/users', userRoutes);  // User routes
+app.use('/api/users', authMiddleware,userRoutes);  // User routes
 app.use('/api/mausam', weatherRoutes);  // Register weather routes
 app.use('/api/location', locationRoutes);  // Register location routes
 app.use('/api/preferences', authMiddleware, preferencesRoutes); 

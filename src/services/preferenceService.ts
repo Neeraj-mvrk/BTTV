@@ -1,5 +1,6 @@
 import prisma from '../db/prisma';
 import { PreferenceData } from '../models/userModel';
+import redis from '../utils/redisClient';
 
 
 export const savePreference = async (data: PreferenceData): Promise<any> => {
@@ -25,10 +26,17 @@ export const savePreference = async (data: PreferenceData): Promise<any> => {
   }
 };
 
-export const getPreference = async (): Promise<any> => {
+export const getPreference = async (userId:number): Promise<any> => {
   try {
-    const preference = await prisma.preferences.findMany({ where: { userId: 1 }});
-    return preference;
+    const cacheKey = `preferences:${userId}`;
+    // Check if cached result exists
+    const cachedData = await redis.get(cacheKey);
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+    const preferences = await prisma.preferences.findMany({ where: { userId:userId}});
+    await redis.setex(cacheKey, 86400, JSON.stringify(preferences));
+    return preferences;
   } catch (error) {
     console.error(error);
     throw new Error('Error creating preference');

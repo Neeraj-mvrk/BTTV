@@ -31,7 +31,9 @@ export const savePreferenceData = async (req: Request, res: Response): Promise<a
 
 export const getPreferenceData = async (req: Request, res: Response): Promise<any> => {
   try {
-    const preference = await getPreference();
+    const {userId} = req.query;
+    console.log(userId);
+    const preference = await getPreference(Number(userId));
     return sendSuccess(res, "Fetched saved Reference",preference);
   } catch (error) {
     console.error(error);

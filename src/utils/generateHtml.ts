@@ -50,7 +50,7 @@ export function generateTravelEmailHTML(name:string, logoUrl:string, bestDays:an
       <!-- Logo Section -->
       <div style="text-align: center; margin-bottom: 20px;">
         <img src="${logoUrl}" alt="Your Logo" style="
-            max-width: 80px; 
+            max-width: 140px; 
             height: auto; 
             border-radius: 4px; 
             background: #008080; /* fallback solid color for older clients */
