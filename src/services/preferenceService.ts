@@ -42,3 +42,33 @@ export const getPreference = async (userId:number): Promise<any> => {
     throw new Error('Error creating preference');
   }
 };
+
+export const deletePreference = async (id: number): Promise<any> => {
+  try {
+    // Find the preference to get the userId (needed for cache invalidation)
+    const preference = await prisma.preferences.findUnique({
+      where: { id },
+    });
+
+    if (!preference) {
+      throw new Error("Preference not found");
+    }
+
+    const userId = preference.userId;
+
+    // Delete the preference
+    const deleted = await prisma.preferences.delete({
+      where: { id },
+    });
+
+    // Invalidate Redis cache for this user's preferences
+    const cacheKey = `preferences:${userId}`;
+    await redis.del(cacheKey);
+
+    return deleted;
+
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error deleting preference');
+  }
+};

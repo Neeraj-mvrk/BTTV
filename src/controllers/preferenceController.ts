@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { savePreference,getPreference } from '../services/preferenceService';
+import { savePreference,getPreference, deletePreference } from '../services/preferenceService';
 import { sendBadRequest,sendError,sendSuccess } from '../utils/response';
 
 export const savePreferenceData = async (req: Request, res: Response): Promise<any> => {
@@ -40,3 +40,24 @@ export const getPreferenceData = async (req: Request, res: Response): Promise<an
     return sendError(res, 'An error occurred while creating the preference.');
   }
 };
+
+export const deletePreferenceData = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+
+    console.log("Deleting preference ID:", id);
+
+    if (!id) {
+      return sendError(res, "Preference ID is required.");
+    }
+
+    const deleted = await deletePreference(Number(id));
+
+    return sendSuccess(res, "Preference deleted successfully", deleted);
+
+  } catch (error) {
+    console.error(error);
+    return sendError(res, 'An error occurred while deleting the preference.');
+  }
+};
+
