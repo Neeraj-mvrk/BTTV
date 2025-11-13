@@ -45,23 +45,23 @@ export const getPreference = async (userId:number): Promise<any> => {
 
 export const deletePreference = async (id: number): Promise<any> => {
   try {
-    // Find the preference to get the userId (needed for cache invalidation)
-    const preference = await prisma.preferences.findUnique({
-      where: { id },
-    });
-
-    if (!preference) {
-      throw new Error("Preference not found");
-    }
+    // Find preference to get userId
+    const preference = await prisma.preferences.findUnique({ where: { id } });
+    if (!preference) throw new Error("Preference not found");
 
     const userId = preference.userId;
 
-    // Delete the preference
-    const deleted = await prisma.preferences.delete({
-      where: { id },
+    // Delete dependent forecast cache
+    await prisma.forecastCache.deleteMany({
+      where: { preferenceId: id }
     });
 
-    // Invalidate Redis cache for this user's preferences
+    // Delete preference
+    const deleted = await prisma.preferences.delete({
+      where: { id }
+    });
+
+    // Clear Redis cache
     const cacheKey = `preferences:${userId}`;
     await redis.del(cacheKey);
 
@@ -69,6 +69,7 @@ export const deletePreference = async (id: number): Promise<any> => {
 
   } catch (error) {
     console.error(error);
-    throw new Error('Error deleting preference');
+    throw new Error("Error deleting preference");
   }
 };
+  
