@@ -3,10 +3,12 @@ import {generateTravelEmailHTML} from './generateHtml';
 
 // 1. Configure transport (using a test SMTP or your provider’s credentials)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD, 
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASSWORD, 
   },
 });
 
@@ -15,7 +17,7 @@ const transporter = nodemailer.createTransport({
 export async function sendEmail(email: string,name:string,logoUrl:string,bestDays:any[],destination:string) {
 const htmlContent = generateTravelEmailHTML(name, logoUrl, bestDays,destination);
   const mailOptions = {
-    from: process.env.SMTP_USER,
+    from: process.env.C_EMAIL,
     to:email,
     subject: "Your Best Days to Travel",
     html: htmlContent,
