@@ -27,7 +27,7 @@ export async function scheduleTravelNotificationCron(): Promise<void> {
         }
 
         const bestDays = await getBestDaysForPreference(id);
-
+        let emailResp = false;
         if (Array.isArray(bestDays) && bestDays.length > 0) {
           const response = await sendEmail(
             email,
@@ -37,17 +37,19 @@ export async function scheduleTravelNotificationCron(): Promise<void> {
             location.split(",")[0]
           );
           console.log(`Email sent successfully to ${email}:`, response);
+          emailResp = response;
         } else {
           console.log(`No matching travel days found for ${email}`);
         }
 
-        // Disable notifications after sending the email
-        await prisma.preferences.update({
+        // Disable notifications after sending the email successfully
+        if(emailResp){
+          await prisma.preferences.update({
           where: { id },
           data: { notify: false },
         });
-
         console.log(`Notification disabled for preference ID ${id}`);
+        }
       }
 
       console.log("Travel notification cron job completed.");
